@@ -6,12 +6,17 @@
 #include <vector>
 #include <conio.h>      //for _getch() with is used to select menu without the \n
 #include <stdlib.h>     //for using the function sleep
+using namespace std;
 
+void writesettingfile()
+{
+    cout << "future feature";
+}
 
 int main()
 {
-    using namespace std;
-    string version = "1.06";
+    
+    string version = "1.07";
     string delim = ";";
     const int const_valuecount = 4;
     int valuecount;
@@ -24,6 +29,7 @@ int main()
     string value5;
     string value6;
     string value7;
+    string value8;
     string line;
     string target_filetype = (".cfg");
     size_t pos = 0;
@@ -47,6 +53,7 @@ int main()
             "-2-        Change delimiter character, right now it is '" << delim << "'." << endl <<
             "-3-        Change filetype of the targetfile. Right now it is '" << target_filetype << "'." << endl <<
             "-4-        Change sourcefilename and type. Right now it is '" << source_filename << "'." << endl << 
+            "-5-        Write settings to file." << endl <<
             "-E-        Exit the program." << endl << 
             endl;
         menu_choice = _getch();
@@ -58,8 +65,7 @@ int main()
             ifstream input_file(source_filename); // open source file
             if (!input_file.is_open())
             {
-                cerr << "Could not open the file - '"
-                    << source_filename << "'" << endl;
+                cerr << "Could not open the file - '" << source_filename << "'" << endl;
                 cout << "Press any key to exit" << endl;
                 getchar();
                 return EXIT_FAILURE;
@@ -97,18 +103,22 @@ int main()
                     value7 = line.substr(0, pos);
                     line.erase(0, pos + delim.length());
 
+                    pos = line.find(delim);
+                    value8 = line.substr(0, pos);
+                    line.erase(0, pos + delim.length());
+
                     // cout << "Attributes red" << endl;
 
                     target_filename = value1 + target_filetype;
                     ofstream outfile(target_filename);
                     outfile
-                        << "Config.Account1.GENERAL.Enable = " << value1 << endl
-                        << "Config.Account1.GENERAL.Label = " << value2 << endl
-                        << "Config.Account1.GENERAL.DisplayName = " << value3 << endl
-                        << "Config.Account1.GENERAL.UserName = " << value4 << endl
-                        << "Config.Account1.GENERAL.AuthName = " << value5 << endl
-                        << "Config.Account1.GENERAL.Pwd = " << value6 << endl
-                        << "Config.Account1.GENERAL.UserAgent = " << value7 << endl;
+                        << "Config.Account1.GENERAL.Enable = " << value2 << endl
+                        << "Config.Account1.GENERAL.Label = " << value3 << endl
+                        << "Config.Account1.GENERAL.DisplayName = " << value4 << endl
+                        << "Config.Account1.GENERAL.UserName = " << value5 << endl
+                        << "Config.Account1.GENERAL.AuthName = " << value6 << endl
+                        << "Config.Account1.GENERAL.Pwd = " << value7 << endl
+                        << "Config.Account1.GENERAL.UserAgent = " << value8 << endl;
 
                     outfile.close();
                     cout << "-> File writen : " + target_filename << endl;
@@ -155,6 +165,11 @@ int main()
             cin >> source_filename;
             break;
         }
+        case '5': // write the setting file
+        {
+            writesettingfile();
+            break;
+        }
         case 'E': case 'e': // exit the program
         {
             cout << "Thanks, bye!" << endl;
@@ -167,6 +182,8 @@ int main()
         }
     }
 }
+
+
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
