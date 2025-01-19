@@ -1,22 +1,21 @@
 // AkuVox_File_Generator.cpp : This file contains the 'main' function. Program execution begins and ends there.
 
 #include <iostream>
-#include <fstream>      //required while dealing with files
-#include <string>       //requiered for getline
+#include <fstream>      // required while dealing with files
+#include <string>       // requiered for getline
 #include <vector>
-#include <conio.h>      //for _getch() with is used to select menu without the \n
-#include <stdlib.h>     //for using the function sleep
+#include <conio.h>      // for _getch() with is used to select menu without the \n
+#include <stdlib.h>     // for using the function sleep
 using namespace std;
 
-void writesettingfile()
-{
-    cout << "future feature";
-}
+
+int settingfile_write();
+int settingfile_read();
 
 int main()
 {
-    
-    string version = "1.07";
+    // main variable deklaration
+    string version = "1.08";
     string delim = ";";
     const int const_valuecount = 4;
     int valuecount;
@@ -35,15 +34,15 @@ int main()
     size_t pos = 0;
     char menu_choice;
 
-
-    cout << "By Luca Moser, version " << version << endl << endl;
-    cout << "Welcome" << endl << "This program creates files according to a sourcefile, which contain the attributes." << endl <<
-        "The sourcefile has to be located at the same place and has to be called '" << source_filename << "'." << endl <<
-        "The seperation between the values is standard '" << delim << "'" << endl << endl;
-  
     
     while (true)
     {
+        // introduction 
+        cout << "By Luca Moser, version " << version << endl << endl;
+        cout << "Welcome" << endl << "This program creates files according to a sourcefile, which contain the attributes." << endl <<
+            "The sourcefile has to be located at the same place and has to be called '" << source_filename << "'." << endl <<
+            "The seperation between the values is standard '" << delim << "'" << endl << endl;
+        
         // ask user what he wants to do
         menu_choice = 0;
         cout << endl << "************************************************************************************************************************" << endl <<
@@ -119,10 +118,9 @@ int main()
                         << "Config.Account1.GENERAL.AuthName = " << value6 << endl
                         << "Config.Account1.GENERAL.Pwd = " << value7 << endl
                         << "Config.Account1.GENERAL.UserAgent = " << value8 << endl;
-
                     outfile.close();
-                    cout << "-> File writen : " + target_filename << endl;
 
+                    cout << "-> File writen : " + target_filename << endl;
                 }
                 else
                 {
@@ -131,59 +129,115 @@ int main()
             }
             input_file.close(); // closing the source file
 
-            cout << endl << "Press any key to continue" << endl;
-            getchar();
+            system("PAUSE");
+            system("cls"); // clear console
             break;
         }
         case '1': // create a default sourcefile for the user
         {
             ofstream outfile(source_filename);
             outfile
-                << "_Beispiel_File" << delim << "_Enable" << delim << "_Label" << delim << "_DisplayName" << delim << "_UserName" << delim << "_AuthName" << delim << "_Pwd" << delim << "_UserAgent" << endl
-                << "Beispiel_MAC_hier_1" << delim << "1" << delim << "Zi. 100" << delim << "Zi. 100" << delim << "8000" << delim << "8000" << delim << "888000" << delim << "" << endl
-                << "Beispiel_MAC_hier_2" << delim << "1" << delim << "Zi. 101" << delim << "Zi. 101" << delim << "8001" << delim << "8001" << delim << "888001" << delim << "" << endl
-                << "Beispiel_MAC_hier_3" << delim << "1" << delim << "Zi. 102" << delim << "Zi. 102" << delim << "8002" << delim << "8002" << delim << "888002" << delim << "" << endl;
+                << "_Example_File" << delim << "_Enable" << delim << "_Label" << delim << "_DisplayName" << delim << "_UserName" << delim << "_AuthName" << delim << "_Pwd" << delim << "_UserAgent" << endl
+                << "Example_MAC_here_1" << delim << "1" << delim << "Room 100" << delim << "Room 100" << delim << "8000" << delim << "8000" << delim << "12345" << delim << "" << endl
+                << "Example_MAC_here_2" << delim << "1" << delim << "Room 101" << delim << "Room 101" << delim << "8001" << delim << "8001" << delim << "12345" << delim << "" << endl
+                << "Example_MAC_here_3" << delim << "1" << delim << "Room 102" << delim << "Room 102" << delim << "8002" << delim << "8002" << delim << "12345" << delim << "" << endl;
             outfile.close();
             cout << "A file with the name '" << source_filename << "' was successfully writen." << endl;
+            
+            system("PAUSE");
+            system("cls"); // clear console
             break;
         }
         case '2': // change delimiter, can also be longer than char because is string, it even works like that
         {
             cout << "What should be the new delimiter between the attributes? Confirm your choice with 'enter'" << endl;
             cin >> delim;
+
+            system("PAUSE");
+            system("cls"); // clear console
             break;
         }
-        case '3': // cahnge targetfile type
+        case '3': // change targetfile type
         {
             cout << "What filetype do you want to have for the targetfile? At the moment you have '" << target_filetype << "'. Confirm your choice with 'enter'" << endl;
             cin >> target_filetype;
+
+            system("PAUSE");
+            system("cls"); // clear console
             break;
         }
         case '4': // change sourcefilename and type
         {
             cout << "What filename with filetype do you want to have for the sourcefile? At the moment you have '" << source_filename << "'. Confirm your choice with 'enter'" << endl;
             cin >> source_filename;
+
+            system("PAUSE");
+            system("cls"); // clear console
             break;
         }
-        case '5': // write the setting file
+        case '8': // read the setting file
         {
-            writesettingfile();
+            settingfile_read();
+            system("PAUSE");
+            system("cls"); // clear console
+            break;
+        }
+        case '9': // write the setting file
+        {
+            settingfile_write();
+
+            system("PAUSE");
+            system("cls"); // clear console
             break;
         }
         case 'E': case 'e': // exit the program
         {
             cout << "Thanks, bye!" << endl;
-            getchar();
+            system("PAUSE");
             return EXIT_SUCCESS;
         }
         
         default: // do nothing, in case something goes wrong
+            system("cls"); // clear console
             break;
         }
     }
 }
 
 
+/*
+    Function to write the parameters in a setting file
+*/
+int settingfile_write() 
+{
+    ofstream outfile("_SETTING.txt");
+    outfile
+        << "version = " << endl;
+    outfile.close();
+    cout << "Setting file writen successfull" << endl;
+    return EXIT_SUCCESS;
+}
+
+/*
+    Fuction to read a setting file
+*/
+int settingfile_read()
+{
+    // see if you find settingsfile
+    ifstream input_file("_SETTING.txt"); // open settingfile
+    if (!input_file.is_open())
+    {
+        cerr << "No settingsfile found, no settings loaded." << endl;
+        return EXIT_FAILURE;
+    }
+    // load variables
+    else
+    {
+
+        cout << "Settingsfile found and loaded" << endl;
+        return EXIT_SUCCESS;
+    }
+}
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
